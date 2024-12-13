@@ -17,6 +17,14 @@ if (isset($_SESSION["message"])) {
     
     unset($_SESSION["message"]);
 }
+
+if (isset($_SESSION["erreur"])) {
+    
+  echo "<p style='color: red; text-align: center;'>" . $_SESSION["erreur"] . "</p>";
+  
+  
+  unset($_SESSION["erreur"]);
+}
 ?>
 
 <form action="./process/process_connect_user.php" method="post" class="max-w-xl mx-auto my-auto p-8 bg-white rounded-xl shadow-2xl border border-gray-200">
