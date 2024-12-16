@@ -96,53 +96,86 @@ try {
 
 </head>
 
-<body>
+<body class="bg-white">
+<div id="app">
+  <div id="star-container">
+
+  <header class="flex w-100 justify-around pt-5 items-center opacity-[1] z-2">
+
+    <div class="w-[50%] p-5 items-center text-center ">
+      <h2 class="text-8xl font-extrabold font-first-font">
+        <span>
+          < 
+        </span>
+        <span>Quiz</span>
+        <span class="text-[#8344bc]">405</span>
+        <span>/></span>
+      </h2>
+    </div>
+
+  </header>
+  
+<main>
+    <div id="star-pattern"></div>
+    <div id="star-gradient-overlay">
+      
+    </div>
+  </div>
+  <div id="stripe-container">
+    <div id="stripe-pattern">
+<div class="h-[100%] pt-[100px]">
+<div class="w-[100%] flex flex-col justify-center items-center text-center">
+<a href="./choixTheme.php" class="shadow-2xl bg-orange-400 rounded-xl p-4 w-[10%]">retour choix des quizz</a>
+
+<h1>Quizz : <?= $_SESSION["titre"]  ?> </h1>
+
+<p>Question : <?= $_SESSION["currentQuestion"] + 1 ?> / <?= $_SESSION["nbOfQuestions"] ?> </p>
+
+<!-- Intitulé questoin -->
+<h2 class="text-red-400 font-bold w-fit text-nowrap">
+    <?= $currentQuestion['question'] ?>
+</h2>
 
 
-    <!-- Main -->
-    <main class="mt-8 flex flex-col items-center">
-
-        <a href="./choixTheme.php" class="bg-pink-500">retour choix des quizz</a>
-
-        <h1>Quizz : <?= $_SESSION["titre"]  ?> </h1>
-
-        <p>Question : <?= $_SESSION["currentQuestion"] + 1 ?> / <?= $_SESSION["nbOfQuestions"] ?> </p>
-
-        <!-- Intitulé questoin -->
-        <h2 class="text-red-400 font-bold size-32 w-fit text-nowrap">
-            <?= $currentQuestion['question'] ?>
-        </h2>
+<img class="w-[20%]" src="<?= $currentQuestion["img"] ?>" alt="">
 
 
 
-        <div class="flex flex-col gap-3">
-            <?php
-            foreach ($reponses as $key => $reponse) {
-            ?>
 
-                <!-- Questions -->
-                <div class="bg-white text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow reponse rep<?= $key ?>">
-                    <?= $reponse["intitule"] ?>
-                </div>
 
-            <?php
-            }
-            ?>
+<div class="w-fit h-fit flex gap-5 pt-5">
+    <?php
+    foreach ($reponses as $key => $reponse) {
+    ?>
+
+        <!-- Questions -->
+        <div class="bg-white hover:scale-110 transition-all cursor-pointer text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow-xl reponse rep<?= $key ?>">
+            <?= $reponse["intitule"] ?>
         </div>
 
-        <!-- Ajouter style svp -->
-        <?php if ($_SESSION["currentQuestion"] + 1 < $_SESSION["nbOfQuestions"]) : ?>
-            <!-- Bouton Question Suivante -->
-            <button type="submit" id="nextQuestion" class="p-4 bg-blue-500 mt-8 text-slate-100 hidden" onclick="goToNextQuestion()">Question suivante</button>
-        <?php else : ?>
-            <!-- Bouton Résultats -->
-            <form method="POST" action="resultat.php">
-                <button type="submit" class="p-4 bg-green-500 mt-8 text-white">Voir Résultats</button>
-            </form>
-        <?php endif; ?>
+    <?php
+    }
+    ?>
+</div>
+
+<!-- Ajouter style svp -->
+<?php if ($_SESSION["currentQuestion"] + 1 < $_SESSION["nbOfQuestions"]) : ?>
+    <!-- Bouton Question Suivante -->
+    <button type="submit" id="nextQuestion" class="p-4 bg-blue-500 mt-8 text-slate-100 hidden" onclick="goToNextQuestion()">Question suivante</button>
+<?php else : ?>
+    <!-- Bouton Résultats -->
+    <form method="POST" action="resultat.php">
+        <button type="submit" class="p-4 bg-green-500 mt-8 text-white">Voir Résultats</button>
+    </form>
+<?php endif; ?>
 
 
-    </main>
+
+</div>
+</div>
+    </div>
+  </div>
+</main>
 </body>
 
 </html>
