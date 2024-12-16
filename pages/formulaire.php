@@ -73,12 +73,6 @@
 session_start(); 
 
 
-
-if (isset($_SESSION['erreur'])) {
-    
-    echo '<p class=" bg-red-600 border p-4 text-center">' . $_SESSION['erreur'] . '</p>';
-    unset($_SESSION['erreur']);
-}
 ?>
 
 </div>

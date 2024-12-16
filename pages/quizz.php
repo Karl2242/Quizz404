@@ -1,4 +1,31 @@
 <?php
+$quizDuration = 10;  // Durée du quiz en secondes
+$currentTime = time();
+$endTime = $currentTime + $quizDuration;  // Calculer l'heure de fin du quiz
+?>
+
+
+    <script>
+        var endTime = <?php echo $endTime; ?>;
+
+        function updateCountdown() {
+            var now = Math.floor(Date.now() / 1000); 
+            var timeLeft = endTime - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById("countdown").innerHTML = "Temps écoulé!";
+                goToNextQuestion()
+                return;
+            }
+
+            document.getElementById("countdown").innerHTML = timeLeft + " secondes";
+        }
+
+        // Mettre à jour le compte à rebours chaque seconde
+        setInterval(updateCountdown, 1000);
+    </script>
+
+<?php
 require_once "../utils/connect-db.php";
 session_start();
 
@@ -47,11 +74,12 @@ if (empty($questions)) {
 // Initialise currentQuestion  et nbOfQuestions
 if (!isset($_SESSION["currentQuestion"])) {
     $_SESSION["currentQuestion"] = 0;
+    $_SESSION["nbOfCorrectQuestions"] = 0;
     $_SESSION["nbOfQuestions"] = count($questions);
 }
 
 // Check if question is next 
-if (isset($_POST["gotoNext"])) {
+if (isset($_POST["isCorrect"])) {
     // Incrémente la question si ce n'est pas la dernière
     if ($_SESSION["currentQuestion"] + 1 < $_SESSION["nbOfQuestions"]) {
         $_SESSION["currentQuestion"]++;
@@ -60,6 +88,13 @@ if (isset($_POST["gotoNext"])) {
         header("location: resultat.php");
         exit;
     }
+
+    // Compte si bonne réponse
+    if ($_POST["isCorrect"] == true) {
+        $_SESSION["nbOfCorrectQuestions"]++;
+    }
+
+
     // Redirige pour éviter que l'utilisateur ne resoumette le formulaire en cas de rafraîchissement
     header("location: quizz.php?id={$id}");
     exit;
@@ -96,6 +131,7 @@ try {
 
 </head>
 
+
 <body class="bg-white">
 <div id="app">
   <div id="star-container">
@@ -131,10 +167,15 @@ try {
 
 <p>Question : <?= $_SESSION["currentQuestion"] + 1 ?> / <?= $_SESSION["nbOfQuestions"] ?> </p>
 
-<!-- Intitulé questoin -->
-<h2 class="text-red-400 font-bold w-fit text-nowrap">
-    <?= $currentQuestion['question'] ?>
-</h2>
+        <!-- Intitulé questoin -->
+        <h2 class="text-red-400 font-bold size-32 w-fit text-nowrap">
+            <?= $currentQuestion['question'] ?>
+        </h2>
+       
+    </div>
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center w-80">
+        <h1 class="text-3xl font-semibold mb-4 text-gray-800">Il vous reste:</h1>
+        <div id="countdown" class="m-4 text-4xl font-bold text-blue-500">10 secondes</div>
 
 
 <img class="w-[20%]" src="<?= $currentQuestion["img"] ?>" alt="">
@@ -216,8 +257,6 @@ try {
 
         if (selectedAnswer == correctAnswer) {
             isSelectedCorrect = true
-            // Si gagné mettre points TODO
-
         }
 
 
@@ -239,8 +278,8 @@ try {
 
         const input = document.createElement('input');
         input.type = 'hidden';
-        input.name = 'gotoNext';
-        input.value = true;
+        input.name = 'isCorrect';
+        input.value = isSelectedCorrect;
 
         form.appendChild(input);
         document.body.appendChild(form);
