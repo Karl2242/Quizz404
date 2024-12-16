@@ -1,21 +1,3 @@
-<?php
-// Start the timer
-$time_start = microtime(true);
-
-// Code to measure
-$num = 0;
-for ($i = 0; $i < 100000000; $i++) {
-$num += 5;
-}
-
-// End the timer
-$time_end = microtime(true);
-
-// Calculate the difference
-$time = $time_end - $time_start;
-echo "The speed of code = " . $time;
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">

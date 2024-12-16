@@ -55,7 +55,7 @@ if (isset($_SESSION["titre"])) {
         <span>/></span>
       </h2>
     </div>
- 
+    <a href="../index.php" class="text-white font-first-font font-extrabold"> Deconnexion</a>
     
   </header>
   
@@ -72,6 +72,7 @@ if (isset($_SESSION["titre"])) {
 <h1 class="text-5xl font-first-font">CHOISI TON THÈME !</h1>
 
 <div class="flex justify-center flex-wrap pt-6 gap-8">
+
 <?php
 foreach ($quiz as $quizz) {
 ?>    

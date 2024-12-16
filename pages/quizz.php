@@ -1,7 +1,9 @@
 <?php
-$quizDuration = 10;  // Durée du quiz en secondes
+$quizDuration = 5;  // Durée du quiz en secondes
 $currentTime = time();
-$endTime = $currentTime + $quizDuration;  // Calculer l'heure de fin du quiz
+$endTime = $currentTime + $quizDuration; 
+ // Calculer l'heure de fin du quiz
+
 ?>
 
 
@@ -14,7 +16,9 @@ $endTime = $currentTime + $quizDuration;  // Calculer l'heure de fin du quiz
 
             if (timeLeft <= 0) {
                 document.getElementById("countdown").innerHTML = "Temps écoulé!";
-                goToNextQuestion()
+                showCorrectAnswer()
+                
+             
                 return;
             }
 
@@ -144,7 +148,7 @@ try {
     </div>
     <div class="bg-white p-8 rounded-lg shadow-lg text-center w-80">
         <h1 class="text-3xl font-semibold mb-4 text-gray-800">Il vous reste:</h1>
-        <div id="countdown" class="m-4 text-4xl font-bold text-blue-500">10 secondes</div>
+        <div id="countdown" class="m-4 text-4xl font-bold text-blue-500">5 secondes</div>
 
 
 
@@ -186,10 +190,12 @@ try {
     const allAnswers = document.querySelectorAll(".reponse");
 
     allAnswers.forEach(answer => answer.addEventListener("click", chooseAnswer));
+    
 
 
     function chooseAnswer(event) {
-
+       
+        
         const selectedAnswer = event.target
         const correctNumber = <?= json_encode(array_search(true, array_column($reponses, 'is_correct'))); ?>;
         const correctAnswer = document.querySelector(`.rep${correctNumber}`)
@@ -229,6 +235,45 @@ try {
         document.querySelector("#nextQuestion").classList.remove("hidden")
 
     }
+
+
+
+    function showCorrectAnswer() {
+        
+    const correctNumber = <?= json_encode(array_search(true, array_column($reponses, 'is_correct'))); ?>;
+    const correctAnswer = document.querySelector(`.rep${correctNumber}`);
+    
+
+    allAnswers.forEach(answer => {
+        if (answer !== correctAnswer) {
+            answer.classList.add("bg-red-500", "text-white");  
+        }
+    });
+
+    
+    
+
+    correctAnswer.classList.add("bg-green-500");  
+
+    
+
+    
+    const nextQuestionButton = document.querySelector("#nextQuestion");
+    if (nextQuestionButton) {
+        nextQuestionButton.classList.remove("hidden");
+    }
+
+
+    if (selectedAnswer == correctAnswer) {
+            isSelectedCorrect = true
+            // Si gagné mettre points TODO
+
+        }
+}
+
+
+
+
 
 
     function goToNextQuestion() {
