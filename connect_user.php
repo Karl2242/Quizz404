@@ -35,7 +35,7 @@ if (isset($_SESSION["erreur"])) {
   
 
   <input type="submit"  value="Se connecter" class="w-full p-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 hover:shadow-lg transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500">
-  
+ 
 </form>
 
 
